@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <algorithm>
 #include <numeric>
 #include <ranges>
@@ -11,19 +12,50 @@
 
 auto get_input()
 {
-	return 0;
+	std::vector<std::vector<int>> rv;
+	std::string ln;
+	while(std::getline(std::cin, ln))
+	{
+		rv.emplace_back();
+		for(auto[m, d]: ctre::search_all<"(\\d+)">(ln))
+			rv.back().emplace_back(d.to_number<int>());
+	}
+	return rv;
 }
 
-int64_t pt1(auto const& in_addr_t)
+int pt1(auto const& in)
 {
 	timer t("p1");
-	return 0;
+	int cnt = 0;
+	for(auto& r: in)
+	{
+		auto[mn, mx] = std::ranges::minmax_element(r);
+		cnt += *mx - *mn;
+	}
+	return cnt;
 }
 
-int64_t pt2(auto const& in)
+int pt2(auto const& in)
 {
 	timer t("p2");
-	return 0;
+	auto wkr = [](auto& r) -> int
+	{
+		for(int a = 0; a < r.size() - 1; ++a)
+			for(int b = a + 1; b < r.size(); ++b)
+			{
+				auto aa = r[a];
+				auto bb = r[b];
+				if (aa > bb && aa % bb == 0)
+					return aa / bb;
+				if( bb > aa && bb % aa == 0)
+					return bb / aa;
+			}
+			return 0;
+	};
+	int cnt = 0;
+	for(auto& r: in)
+		cnt += wkr(r) ;
+	return cnt;
 }
 
 int main()
