@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <set>
+
 #include <algorithm>
-#include <numeric>
-#include <ranges>
 
 #include <fmt/format.h>
 
@@ -11,19 +12,51 @@
 
 auto get_input()
 {
-	return 0;
+	std::vector<std::string> rv;
+	std::string ln;
+	while(std::getline(std::cin, ln))
+		rv.emplace_back(ln);
+	return rv;
 }
 
-int64_t pt1(auto const& in_addr_t)
+int pt1(auto const& in)
 {
 	timer t("p1");
-	return 0;
+	int cnt = 0;
+	for(auto& r : in)
+	{
+		std::set<std::string> ss;
+		for(auto w : ctre::search_all<"([a-z]+)">(r))
+		{
+			if(ss.contains(w.to_string()))
+				goto nxt;
+			ss.insert(w.to_string());
+		}
+		++cnt;
+nxt:
+	}
+	return cnt;
 }
 
-int64_t pt2(auto const& in)
+int pt2(auto const& in)
 {
 	timer t("p2");
-	return 0;
+	int cnt = 0;
+	for(auto& r : in)
+	{
+		std::set<std::string> ss;
+		for(auto w : ctre::search_all<"([a-z]+)">(r))
+		{
+			std::string tmp(w.to_string());
+			std::ranges::sort(tmp);
+			if(ss.contains(tmp))
+				goto nxt;
+			ss.insert(tmp);
+		}
+		++cnt;
+nxt:
+	}
+	return cnt;
 }
 
 int main()
