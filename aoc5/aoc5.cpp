@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <algorithm>
 #include <numeric>
 #include <ranges>
@@ -11,19 +12,49 @@
 
 auto get_input()
 {
-	return 0;
+	std::vector<int> r;
+	std::string ln;
+	while(std::getline(std::cin, ln))
+	{
+		if(auto[m, v] = ctre::match<"(\\-?\\d+)">(ln);  m)
+			r.emplace_back(v.to_number<int>());
+		else
+			fmt::println("parse fail at : {}", ln);
+	}
+	return r;
 }
 
-int64_t pt1(auto const& in_addr_t)
+int pt1(auto in)
 {
 	timer t("p1");
-	return 0;
+	int ip = 0;
+	int steps = 0;
+	while(ip >= 0 && ip < in.size())
+	{
+		auto j = in[ip];
+		++in[ip];
+		ip += j;
+		++steps;
+	}
+	return steps;
 }
 
-int64_t pt2(auto const& in)
+int pt2(auto in)
 {
 	timer t("p2");
-	return 0;
+	int ip = 0;
+	int steps = 0;
+	while(ip >= 0 && ip < in.size())
+	{
+		auto j = in[ip];
+		if(j > 2)
+			--in[ip];
+		else
+			++in[ip];
+		ip += j;
+		++steps;
+	}
+	return steps;
 }
 
 int main()
