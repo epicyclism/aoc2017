@@ -1,9 +1,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <numeric>
-#include <ranges>
 
 #include <fmt/format.h>
 
@@ -15,12 +12,7 @@ auto get_input()
 	std::vector<int> r;
 	std::string ln;
 	while(std::getline(std::cin, ln))
-	{
-		if(auto[m, v] = ctre::match<"(\\-?\\d+)">(ln);  m)
-			r.emplace_back(v.to_number<int>());
-		else
-			fmt::println("parse fail at : {}", ln);
-	}
+		r.emplace_back(sv_to_t<int>(ln));
 	return r;
 }
 

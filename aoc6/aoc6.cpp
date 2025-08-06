@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <set>
+#include <map>
 #include <algorithm>
-#include <numeric>
-#include <ranges>
 
 #include <fmt/format.h>
 
@@ -11,19 +12,63 @@
 
 auto get_input()
 {
-	return 0;
+	std::vector<int> r;
+	std::string ln;
+	std::getline(std::cin, ln);
+	for(auto v: ctre::search_all<"(\\d+)">(ln))
+		r.emplace_back(v.to_number<int>());
+	return r;
 }
 
-int64_t pt1(auto const& in_addr_t)
+int pt1(auto in)
 {
 	timer t("p1");
+	const int msk = in.size() - 1;
+	std::set<std::vector<int>> ss;
+	while(1)
+	{
+		if(ss.contains(in))
+			return ss.size();
+		ss.insert(in);
+		size_t mx = std::distance(in.begin(), std::ranges::max_element(in));
+		auto redist = in[mx];
+		in[mx] = 0;
+		while(redist)
+		{
+			++mx;
+			mx &= msk;
+			++in[mx];
+			--redist;
+		}
+	}
+	// not reached...
 	return 0;
 }
 
-int64_t pt2(auto const& in)
+int pt2(auto in)
 {
 	timer t("p2");
+	const int msk = in.size() - 1;
+	std::map<std::vector<int>, size_t> mm;
+	while(1)
+	{
+		if(mm.contains(in))
+			return mm.size() - mm[in];
+		mm[in] = mm.size();
+		size_t mx = std::distance(in.begin(), std::ranges::max_element(in));
+		auto redist = in[mx];
+		in[mx] = 0;
+		while(redist)
+		{
+			++mx;
+			mx &= msk;
+			++in[mx];
+			--redist;
+		}
+	}
+	// not reached...
 	return 0;
+
 }
 
 int main()
