@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <algorithm>
-#include <numeric>
-#include <ranges>
 
 #include <fmt/format.h>
 
@@ -11,19 +10,35 @@
 
 auto get_input()
 {
-	return 0;
+	std::vector<std::pair<int, int>> v;
+	std::string ln;
+	while(std::getline(std::cin, ln))
+	{
+		if(auto[m, d, r] = ctre::match<"(\\d+): (\\d+)">(ln); m)
+			v.emplace_back(d.to_number<int>(), r.to_number<int>());
+		else
+			fmt::println("parse fail at {}", ln);
+	}
+	return v;
 }
 
-int64_t pt1(auto const& in_addr_t)
+int64_t pt1(auto const& in)
 {
 	timer t("p1");
-	return 0;
+	return std::reduce(in.begin(), in.end(), 0, [](auto l, auto &r){ return r.first % (2 * r.second - 2) == 0 ? l + r.first * r.second: l;});
 }
 
 int64_t pt2(auto const& in)
 {
 	timer t("p2");
-	return 0;
+	int delay = 1;
+	while(1)
+	{
+		if(std::reduce(in.begin(), in.end(), 0, [&](auto l, auto &r){ return (r.first + delay) % (2 * r.second - 2) == 0 ? l + 1: l;}) == 0)
+			break;
+		++delay;
+	}
+	return delay;
 }
 
 int main()
