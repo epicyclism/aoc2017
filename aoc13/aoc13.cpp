@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-
+#include <numeric>
 #include <fmt/format.h>
 
 #include "ctre_inc.h"
