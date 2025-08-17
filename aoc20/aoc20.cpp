@@ -76,7 +76,7 @@ int64_t pt1(auto in)
 	{
 		for(int n = 0; n < 100; ++n)
 			std::ranges::for_each(in, &particle::update);
-		fmt::println("{}", std::distance(in.begin(), std::ranges::min_element(in, std::less<>(), &particle::to_o_)));
+//		fmt::println("{}", std::distance(in.begin(), std::ranges::min_element(in, std::less<>(), &particle::to_o_)));
 	}
 	return std::distance(in.begin(), std::ranges::min_element(in, std::less<>(), &particle::to_o_));
 }
